@@ -11,8 +11,6 @@ public:
 
     ~I2C();
 
-     * Write raw bytes to the I2C device
-     */
     ssize_t write(const void* buffer, size_t size) const;
 
     ssize_t read(void* buffer, size_t size) const;
