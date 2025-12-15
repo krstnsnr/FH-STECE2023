@@ -14,7 +14,7 @@
 MotorStepper::MotorStepper(const std::string& gpiodevice, OutputSwitch& line_enable, OutputSwitch& line_direction, std::string period_nanosec, std::string duty_nanosec)
     : _line_enable(line_enable), _line_direction(line_direction), _direction(Direction::IDLE), _period_nanosec(period_nanosec), _duty_nanosec(duty_nanosec){
     
-    //MotorStepper::ensureExported();
+    MotorStepper::ensureExported();
     MotorStepper::stop();
 }
 
@@ -80,7 +80,6 @@ int MotorStepper::writeData(std::string path, std::string value) {
     return 0;
 }
 
-/*
 //stellt sicher das pwm0 exportiert ist
 int MotorStepper::ensureExported() {
     struct stat st;
@@ -92,4 +91,3 @@ int MotorStepper::ensureExported() {
     }
     return 0;
 }
-*/
