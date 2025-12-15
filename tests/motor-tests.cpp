@@ -19,8 +19,10 @@ int main(int argc, char const *argv[])
         return 1; // Mit Fehler beenden
     }
 
-    OutputSwitchGPIOSysfs forwardSwitch(20+512); 
-    OutputSwitchGPIOSysfs backwardSwitch(21+512);
+    OutputSwitchGPIOSysfs forwardSwitch_LED(20+512); 
+    OutputSwitchGPIOSysfs backwardSwitch_LED(21+512);
+    OutputSwitchGPIOSysfs enableSwitch_Stepper(26+512); 
+    OutputSwitchGPIOSysfs directionSwitch_Stepper(17+512);
     
     // --- DEMONSTRATION DES MEMORY LEAKS ---
     // 1. Wir verwenden einen rohen Pointer (rohen Zeiger)
@@ -31,27 +33,27 @@ int main(int argc, char const *argv[])
     {
         std::cout << "[INFO] Erstelle MotorLED..." << std::endl;
         // 2. Wir reservieren Speicher auf dem Heap mit 'new'
-        motor = new MotorLED(forwardSwitch, backwardSwitch);
+        motor = new MotorLED(forwardSwitch_LED, backwardSwitch_LED);
     }
     else if (motorType == "--stepper")
     {
-        std::cout << "[WARN] Stepper noch nicht implementiert, verwende MotorLED." << std::endl;
-        motor = new MotorLED(forwardSwitch, backwardSwitch);
+        std::cout << "[WARN] Erstelle MotorStepper" << std::endl;
+        motor = new MotorStepper("/dev/gpiochip0", enableSwitch_Stepper, directionSwitch_Stepper, "2000000", "500000");
     }
     else
     {
         std::cout << "[WARN] Unbekannter Motor-Typ. Verwende Standard: MotorLED." << std::endl;
-        motor = new MotorLED(forwardSwitch, backwardSwitch);
+        motor = new MotorLED(forwardSwitch_LED, backwardSwitch_LED);
     }
 
     // Tests ausführen (der -> Operator funktioniert gleich)
     std::cout << "[TEST] motor->forward()" << std::endl;
     motor->forward();
-    sleep(2);
+    sleep(1);
 
     std::cout << "[TEST] motor->backward()" << std::endl;
     motor->backward();
-    sleep(2);
+    sleep(1);
 
     std::cout << "[TEST] motor->stop()" << std::endl;
     motor->stop();

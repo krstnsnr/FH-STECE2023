@@ -52,7 +52,7 @@ void MotorStepper::backward(){
 void MotorStepper::stop(){
 
     _line_enable.set_state(OutputSwitch::State::OUTPUT_HIGH);
-    _line_direction.set_state(OutputSwitch::State::OUTPUT_LOW);
+    _line_direction.set_state(OutputSwitch::State::OUTPUT_HIGH);
 
     _direction = Direction::IDLE;
 
